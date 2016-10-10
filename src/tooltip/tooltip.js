@@ -348,7 +348,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (tooltip) {
                 tooltip.remove();
-                
+
                 tooltip = null;
                 if (adjustmentTimeout) {
                   $timeout.cancel(adjustmentTimeout);
@@ -356,7 +356,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               openedTooltips.remove(ttScope);
-              
+
               if (tooltipLinkedScope) {
                 tooltipLinkedScope.$destroy();
                 tooltipLinkedScope = null;
@@ -501,15 +501,15 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                 if (trigger === 'outsideClick') {
                   element.off('click', toggleTooltipBind);
                 } else {
-                  element.off(trigger, showTooltipBind);
-                  element.off(trigger, toggleTooltipBind);
+                  element[0].removeEventListener(trigger, showTooltipBind);
+                  element[0].removeEventListener(trigger, toggleTooltipBind);
                 }
               });
               triggers.hide.forEach(function(trigger) {
                 if (trigger === 'outsideClick') {
                   $document.off('click', bodyHideTooltipBind);
                 } else {
-                  element.off(trigger, hideTooltipBind);
+                  element[0].removeEventListener(trigger, hideTooltipBind);
                 }
               });
             };
@@ -538,10 +538,10 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                     element.on('click', toggleTooltipBind);
                     $document.on('click', bodyHideTooltipBind);
                   } else if (trigger === triggers.hide[idx]) {
-                    element.on(trigger, toggleTooltipBind);
+                    element[0].addEventListener(trigger, toggleTooltipBind);
                   } else if (trigger) {
-                    element.on(trigger, showTooltipBind);
-                    element.on(triggers.hide[idx], hideTooltipBind);
+                    element[0].addEventListener(trigger, showTooltipBind);
+                    element[0].addEventListener(triggers.hide[idx], hideTooltipBind);
                   }
 
                   element.on('keypress', function(e) {
